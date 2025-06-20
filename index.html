@@ -36,7 +36,6 @@
       const forward = document.getElementById('forwardBtn')
       const rewind = document.getElementById('rewindBtn')
       const myValue = document.getElementById('myValue')
-      const value = parseFloat(myValue.value)
       const speed = document.getElementById('speed')
 
       input.onchange = () => {
@@ -52,20 +51,20 @@
       }
 
       forward.onclick = () => {
-        video.currentTime = Math.min(video.currentTime + myValue.value, video.duration)
+        video.currentTime = Math.min(video.currentTime + parseFloat(myValue.value), video.duration)
       }
       document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') {
-          video.currentTime = Math.min(video.currentTime + myValue.value, video.duration)
+          video.currentTime = Math.min(video.currentTime + parseFloat(myValue.value), video.duration)
         }
       })
       rewind.onclick = () => {
-        video.currentTime = Math.max(video.currentTime - myValue.value, 0)
+        video.currentTime = Math.max(video.currentTime - parseFloat(myValue.value), 0)
       }
 
       document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
-          video.currentTime = Math.max(video.currentTime - myValue.value, 0)
+          video.currentTime = Math.max(video.currentTime - parseFloat(myValue.value), 0)
         }
       })
     </script>
