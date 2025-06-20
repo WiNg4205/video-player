@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="flex flex-col items-center">
+      <input type="file" accept="video/*" id="videoInput">
+      <video id="videoPlayer" controls class="w-3/5 rounded-md self-center"></video>
+
+      <div class="flex justify-between w-3/5 px-20 items-center mt-8">
+        <button id="forwardBtn">
+          <svg class="size-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M459.5 440.6c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-320c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4L288 214.3l0 41.7 0 41.7L459.5 440.6zM256 352l0-96 0-128 0-32c0-12.4-7.2-23.7-18.4-29s-24.5-3.6-34.1 4.4l-192 160C4.2 237.5 0 246.5 0 256s4.2 18.5 11.5 24.6l192 160c9.5 7.9 22.8 9.7 34.1 4.4s18.4-16.6 18.4-29l0-64z"/></svg>
+        </button>
+        <div>
+          <div class="flex gap-4 items-center">
+            <label class="w-32" for="myValue">Forward/Rewind:</label>
+            <input class="border" type="number" id="myValue" min="0" step="any" value="10">
+          </div>
+          <div class="flex gap-4 items-center mt-2">
+            <label class="w-32" for="speed">Playback speed:</label>
+            <input class="border" type="number" id="speed" min="0" step="any" value="1">
+          </div>
+        </div>
+        <button id="rewindBtn">
+          <svg class="size-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M52.5 440.6c-9.5 7.9-22.8 9.7-34.1 4.4S0 428.4 0 416L0 96C0 83.6 7.2 72.3 18.4 67s24.5-3.6 34.1 4.4L224 214.3l0 41.7 0 41.7L52.5 440.6zM256 352l0-96 0-128 0-32c0-12.4 7.2-23.7 18.4-29s24.5-3.6 34.1 4.4l192 160c7.3 6.1 11.5 15.1 11.5 24.6s-4.2 18.5-11.5 24.6l-192 160c-9.5 7.9-22.8 9.7-34.1 4.4s-18.4-16.6-18.4-29l0-64z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const input = document.getElementById('videoInput')
+      const video = document.getElementById('videoPlayer')
+      const forward = document.getElementById('forwardBtn')
+      const rewind = document.getElementById('rewindBtn')
+      const myValue = document.getElementById('myValue')
+      const value = parseFloat(myValue.value)
+      const speed = document.getElementById('speed')
+
+      input.onchange = () => {
+        const file = input.files[0]
+        if (file) {
+          video.src = URL.createObjectURL(file)
+          video.play()
+        }
+      }
+
+      speed.onchange = () => {
+        video.playbackRate = speed.value
+      }
+
+      forward.onclick = () => {
+        video.currentTime = Math.min(video.currentTime + value, video.duration)
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          video.currentTime = Math.min(video.currentTime + value, video.duration)
+        }
+      })
+      rewind.onclick = () => {
+        video.currentTime = Math.max(video.currentTime - value, 0)
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          video.currentTime = Math.max(video.currentTime - value, 0)
+        }
+      })
+    </script>
+  </body>
+</html>
